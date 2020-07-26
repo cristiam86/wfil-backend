@@ -1,0 +1,1 @@
+stackery deploy --aws-profile iamtech -e wfil-production
