@@ -1,0 +1,6 @@
+{
+  "field": "getwalletbalance",
+  "queryStringParameters": {
+      "address": "t3qpmhqqivfdhbo2nbr3uk4uzgh25lrcxtqvzmnpkqxa6ervwhq3brtqock5vh43jky7wnsqyrzg5ae57bzbra"
+  }
+}
