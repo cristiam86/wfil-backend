@@ -10,8 +10,10 @@ stackery local invoke -e wfil-production --aws-profile iamtech --function-id Cre
 */
 exports.handler = async () => {
   try {
-    const { token } = await pow.ffs.create()
-    return returnSuccess({ token });
+    const { token } = await pow.ffs.create();
+    pow.setToken(token)
+    const { info } = await pow.ffs.info()
+    return returnSuccess({ token, address: info.balancesList[0].addr.addr });
   } catch (error) {
     console.log("exports.handler -> error", error)
     return returnFailure('UNEXPECTED')
