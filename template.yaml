@@ -29,7 +29,7 @@ Resources:
             TimeoutInMillis: 29000
       Environment:
         Variables:
-          HOST: http://127.0.0.1:1234
+          HOST: http://pow.hackfs.textile.io:6002
           SECRETS_NAMESPACE: !Sub /${EnvironmentTagName}/
   WFil:
     Type: AWS::Serverless::HttpApi
@@ -43,6 +43,15 @@ Resources:
           /transaction:
             get:
               responses: {}
+          /wallet:
+            post:
+              responses: {}
+          /wallet/balance:
+            get:
+              responses: {}
+          /wallet/send:
+            post:
+              responses: {}
       FailOnWarnings: true
       CorsConfiguration:
         AllowOrigins:
@@ -55,6 +64,87 @@ Resources:
         ExposeHeaders:
           - Content-Length
           - Content-Type
+  CreateWallet:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${AWS::StackName}-CreateWallet
+      Description: !Sub
+        - Stack ${StackTagName} Environment ${EnvironmentTagName} Function ${ResourceName}
+        - ResourceName: CreateWallet
+      CodeUri: src/CreateWallet
+      Handler: index.handler
+      Runtime: nodejs12.x
+      MemorySize: 3008
+      Timeout: 30
+      Tracing: Active
+      Policies:
+        - AWSXrayWriteOnlyAccess
+      Environment:
+        Variables:
+          HOST: http://pow.hackfs.textile.io:6002
+      Events:
+        WFilPOSTwallet:
+          Type: HttpApi
+          Properties:
+            Path: /wallet
+            Method: POST
+            ApiId: !Ref WFil
+            PayloadFormatVersion: '2.0'
+            TimeoutInMillis: 29000
+  GetWalletBalance:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${AWS::StackName}-GetWalletBalance
+      Description: !Sub
+        - Stack ${StackTagName} Environment ${EnvironmentTagName} Function ${ResourceName}
+        - ResourceName: GetWalletBalance
+      CodeUri: src/GetWalletBalance
+      Handler: index.handler
+      Runtime: nodejs12.x
+      MemorySize: 3008
+      Timeout: 30
+      Tracing: Active
+      Policies:
+        - AWSXrayWriteOnlyAccess
+      Environment:
+        Variables:
+          HOST: http://pow.hackfs.textile.io:6002
+      Events:
+        WFilGETwalletbalance:
+          Type: HttpApi
+          Properties:
+            Path: /wallet/balance
+            Method: GET
+            ApiId: !Ref WFil
+            PayloadFormatVersion: '2.0'
+            TimeoutInMillis: 29000
+  SendFil:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${AWS::StackName}-SendFil
+      Description: !Sub
+        - Stack ${StackTagName} Environment ${EnvironmentTagName} Function ${ResourceName}
+        - ResourceName: SendFil
+      CodeUri: src/SendFil
+      Handler: index.handler
+      Runtime: nodejs12.x
+      MemorySize: 3008
+      Timeout: 30
+      Tracing: Active
+      Policies:
+        - AWSXrayWriteOnlyAccess
+      Environment:
+        Variables:
+          HOST: ' http://pow.hackfs.textile.io:6002'
+      Events:
+        WFilPOSTwalletsend:
+          Type: HttpApi
+          Properties:
+            Path: /wallet/send
+            Method: POST
+            ApiId: !Ref WFil
+            PayloadFormatVersion: '2.0'
+            TimeoutInMillis: 29000
 Parameters:
   StackTagName:
     Type: String
