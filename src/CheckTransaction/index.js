@@ -13,7 +13,7 @@ INVOKE
 stackery local invoke -e wfil-production --aws-profile iamtech --function-id CheckTransaction --input-file ./src/CheckTransaction/event.json --watch
 */
 exports.handler = async (event, context) => {
-  const { origin, amount, destination } = event.arguments;
+  const { origin, amount, destination } = event.queryStringParameters;
   console.log("exports.handler -> destination", destination)
   console.log("exports.handler -> amount", amount)
   console.log("exports.handler -> origin", origin)
@@ -33,7 +33,7 @@ exports.handler = async (event, context) => {
         const wfilContract = getContract();
         const transaction = wfilContract.methods.mint(destination, amount);
         const result = await send(transaction, ETH_PK);
-        console.log("exports.handler -> result", result)
+        console.log("FINAL -> result", result)
 
         return returnSuccess({ tx: result.transactionHash });
       }
