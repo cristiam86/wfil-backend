@@ -19,28 +19,3 @@ exports.returnSuccess = function(body) {
 exports.returnFailure = function(body) {
   return buildResponse(500, body);
 }
-
-
-// export function returnCSV(body, fileName) {
-//   return {
-//     headers: {
-//       'Content-Type': 'text/csv',
-//       'Content-disposition': `attachment; filename=${fileName}.csv`
-//     },
-//     body,
-//     statusCode: 200
-//   }
-// }
-
-
-// export function returnXLS(body, fileName) {
-//   return {
-//     headers: {
-//       'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-//       'Content-Disposition': `attachment; filename=${fileName}.xlsx`
-//     },
-//     isBase64Encoded: true,
-//     body,
-//     statusCode: 200,
-//   }
-// }

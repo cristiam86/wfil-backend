@@ -1,30 +1,45 @@
-const { createPow } = require('@textile/powergate-client');
-const AWS = require('aws-sdk');
 const { returnSuccess, returnFailure } = require('./lib/response.js');
+const { getMessagesList, getClient } = require('./lib/lotusRPC.js');
+const { getContract, send } = require('./lib/web3-lib.js');
+const AWS = require('aws-sdk');
 
 const secretsManager = new AWS.SecretsManager();
 const secretsNamespace = process.env.SECRETS_NAMESPACE;
 
-const host = process.env.HOST;
-const pow = createPow({ host });
+const VAULT_ADDRESS = process.env.VAULT_ADDRESS; 
 
 /*
 INVOKE
 stackery local invoke -e wfil-production --aws-profile iamtech --function-id CheckTransaction --input-file ./src/CheckTransaction/event.json --watch
 */
 exports.handler = async (event, context) => {
-  const { address } = event.arguments;
-  // const { token } = await pow.ffs.create()
-  const params = { SecretId: `${secretsNamespace}TOKEN` };
-
+  const { origin, amount, destination } = event.arguments;
+  console.log("exports.handler -> destination", destination)
+  console.log("exports.handler -> amount", amount)
+  console.log("exports.handler -> origin", origin)
+  
   try {
-    const response = await secretsManager.getSecretValue(params).promise();
-    const TOKEN = response.SecretString;
-    pow.setToken(TOKEN)
-    const { info } = await pow.ffs.info()
-    console.log("exports.handler -> info", JSON.stringify(info, null, 4))
-    const balance = await pow.wallet.balance('t3r65ygzflxsibwkput2c5thotk4qpo4vkz2t5dtg76dhxgotynlb7nbzabt6z2if3xmlfpvu7ujyhfy44qvoq');
-    console.log("exports.handler -> balance", balance);
+    const messagesList = await getMessagesList({ from: origin, to: VAULT_ADDRESS })
+    // if (true) {
+    if (messagesList && messagesList[0]) {
+      const client = getClient();
+      const message = await client.chainGetMessage(messagesList[0]);
+      console.log("init -> message", JSON.stringify(message, null, 4))
+      // if (true) {
+      if (message && message.Value === amount) {
+        const ethResponse = await secretsManager.getSecretValue({ SecretId: `${secretsNamespace}ETH_PK` }).promise();
+        const ETH_PK = ethResponse.SecretString;
+        // const INF_SK = infResponse.SecretString; 
+        const wfilContract = getContract();
+        const transaction = wfilContract.methods.mint(destination, amount);
+        const result = await send(transaction, ETH_PK);
+        console.log("exports.handler -> result", result)
+
+        return returnSuccess({ tx: result.transactionHash });
+      }
+      return returnFailure('DIFFERENT_VALUE')
+    }
+    return returnFailure('NO_MESSAGE');
     
   } catch (error) {
     console.log("exports.handler -> error", error)

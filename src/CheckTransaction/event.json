@@ -1,6 +1,8 @@
 {
     "field": "checkTransaction",
     "arguments": {
-        "address": "37d586c2-dc72-4140-a4e2-1cc43bfdb3c8"
+        "origin": "t3vvsrbnt2bss7oo2t43hlpbz7bvsz2k6f2nhiabs6a7ipz7fk2oxgpt6pmc6whmlbxp6mlgcrctk3dzd4ap6q",
+        "amount": "10000000000000000",
+        "destination": "0x45321B7d9f0733F8A3d4206b02c38739044a9612"
     }
 }

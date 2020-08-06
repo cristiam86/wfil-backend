@@ -15,3 +15,10 @@
   "address": "t3vvsrbnt2bss7oo2t43hlpbz7bvsz2k6f2nhiabs6a7ipz7fk2oxgpt6pmc6whmlbxp6mlgcrctk3dzd4ap6q"
 }
 ```
+
+## Vault Address
+```json 
+{
+  "address": "t3uicj6pjdow6rpzxoquamoxgntzjai7q7nh45zmm2ekv55ai4nnzu437x2vldugm5zdkw2bq6abm5ukkmc4lq"
+}
+```
