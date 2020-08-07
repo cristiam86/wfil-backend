@@ -1,0 +1,7 @@
+{
+    "field": "checkTransaction",
+    "queryStringParameters": {
+        "amount": "20000000000000000",
+        "destination": "t3vvsrbnt2bss7oo2t43hlpbz7bvsz2k6f2nhiabs6a7ipz7fk2oxgpt6pmc6whmlbxp6mlgcrctk3dzd4ap6q"
+    }
+}
