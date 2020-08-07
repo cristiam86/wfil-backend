@@ -70,6 +70,8 @@ Resources:
         ExposeHeaders:
           - Content-Length
           - Content-Type
+        AllowOrigins:
+          - '*'
   CreateWallet:
     Type: AWS::Serverless::Function
     Properties:
