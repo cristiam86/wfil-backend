@@ -1,5 +1,5 @@
 const { returnSuccess, returnFailure } = require('./lib/response.js');
-const { getMessagesList, getClient } = require('./lib/lotusRPC.js');
+const { getMessagesList, getClient } = require('./lib/lotusApi.js');
 const { getContract, send } = require('./lib/web3-lib.js');
 const AWS = require('aws-sdk');
 
@@ -19,14 +19,12 @@ exports.handler = async (event, context) => {
   console.log("exports.handler -> origin", origin)
   
   try {
-    const messagesList = await getMessagesList({ from: origin, to: VAULT_ADDRESS })
+    const messagesList = await getMessagesList(origin);
     // if (true) {
-    if (messagesList && messagesList[0]) {
-      const client = getClient();
-      const message = await client.chainGetMessage(messagesList[0]);
-      console.log("init -> message", JSON.stringify(message, null, 4))
-      // if (true) {
-      if (message && message.Value === amount) {
+    if (messagesList && messagesList.length > 0) {
+      const wrappingMessages = messagesList.filter(message => message.to === VAULT_ADDRESS && Number(message.value * 1000000000000000000) === Number(amount));
+      console.log("exports.handler -> messagesToVault", wrappingMessages)
+      if (wrappingMessages && wrappingMessages.length > 0) {
         const ethResponse = await secretsManager.getSecretValue({ SecretId: `${secretsNamespace}ETH_PK` }).promise();
         const ETH_PK = ethResponse.SecretString;
         // const INF_SK = infResponse.SecretString; 
@@ -37,7 +35,7 @@ exports.handler = async (event, context) => {
 
         return returnSuccess({ tx: result.transactionHash });
       }
-      return returnFailure('DIFFERENT_VALUE')
+      return returnFailure('NO_MESSAGE OR DIFFERENT_VALUE')
     }
     return returnFailure('NO_MESSAGE');
     

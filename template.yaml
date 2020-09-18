@@ -29,9 +29,9 @@ Resources:
             TimeoutInMillis: 29000
       Environment:
         Variables:
-          HOST: http://pow.hackfs.textile.io:6002
           SECRETS_NAMESPACE: !Sub /${EnvironmentTagName}/
-          BLOCKS_HEIGHT_TO_CHECK: 60
+          BLOCKS_TO_CHECK: 5
+          LOTUS_API: https://api.filscan.io:8700/rpc/v1
           VAULT_ADDRESS: t3uicj6pjdow6rpzxoquamoxgntzjai7q7nh45zmm2ekv55ai4nnzu437x2vldugm5zdkw2bq6abm5ukkmc4lq
           WEB3_PROVIDER: https://kovan.infura.io/v3/811bbb5a9fdb4b36b486bc3823cde725
           CONTRACT_ADDRESS: eC41bA46D6a477e0a004a8e30566f3e9e4a7684b
@@ -89,7 +89,7 @@ Resources:
         - AWSXrayWriteOnlyAccess
       Environment:
         Variables:
-          HOST: http://pow.hackfs.textile.io:6002
+          HOST: https://pow.wfil.textile.io:6002
       Events:
         WFilPOSTwallet:
           Type: HttpApi
@@ -116,7 +116,7 @@ Resources:
         - AWSXrayWriteOnlyAccess
       Environment:
         Variables:
-          HOST: http://pow.hackfs.textile.io:6002
+          HOST: https://pow.wfil.textile.io:6002
       Events:
         WFilGETwalletbalance:
           Type: HttpApi
@@ -143,7 +143,7 @@ Resources:
         - AWSXrayWriteOnlyAccess
       Environment:
         Variables:
-          HOST: ' http://pow.hackfs.textile.io:6002'
+          HOST: https://pow.wfil.textile.io:6002
       Events:
         WFilPOSTwalletsend:
           Type: HttpApi
@@ -182,7 +182,7 @@ Resources:
       Environment:
         Variables:
           SECRETS_NAMESPACE: !Sub /${EnvironmentTagName}/
-          HOST: http://pow.hackfs.textile.io:6002
+          HOST: https://pow.wfil.textile.io:6002
           WEB3_PROVIDER: https://kovan.infura.io/v3/811bbb5a9fdb4b36b486bc3823cde725
           CONTRACT_ADDRESS: eC41bA46D6a477e0a004a8e30566f3e9e4a7684b
           MINTER_ADDRESS: E24904d381D075cf0c8912Bc3438f2cf0c720eDC
