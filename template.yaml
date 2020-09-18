@@ -89,7 +89,7 @@ Resources:
         - AWSXrayWriteOnlyAccess
       Environment:
         Variables:
-          HOST: https://pow.wfil.textile.io:6002
+          HOST: https://webapi.pow.wfil.textile.io
       Events:
         WFilPOSTwallet:
           Type: HttpApi
@@ -116,7 +116,7 @@ Resources:
         - AWSXrayWriteOnlyAccess
       Environment:
         Variables:
-          HOST: https://pow.wfil.textile.io:6002
+          HOST: https://webapi.pow.wfil.textile.io
       Events:
         WFilGETwalletbalance:
           Type: HttpApi
@@ -143,7 +143,7 @@ Resources:
         - AWSXrayWriteOnlyAccess
       Environment:
         Variables:
-          HOST: https://pow.wfil.textile.io:6002
+          HOST: https://webapi.pow.wfil.textile.io
       Events:
         WFilPOSTwalletsend:
           Type: HttpApi
@@ -182,7 +182,7 @@ Resources:
       Environment:
         Variables:
           SECRETS_NAMESPACE: !Sub /${EnvironmentTagName}/
-          HOST: https://pow.wfil.textile.io:6002
+          HOST: https://webapi.pow.wfil.textile.io
           WEB3_PROVIDER: https://kovan.infura.io/v3/811bbb5a9fdb4b36b486bc3823cde725
           CONTRACT_ADDRESS: eC41bA46D6a477e0a004a8e30566f3e9e4a7684b
           MINTER_ADDRESS: E24904d381D075cf0c8912Bc3438f2cf0c720eDC

@@ -6,7 +6,7 @@ const pow = createPow({ host });
 
 /*
 INVOKE
-stackery local invoke -e wfil-production --aws-profile iamtech --function-id CreateWallet
+stackery local invoke -e wfil-production --aws-profile iamtech --function-id CreateWallet --watch
 */
 exports.handler = async () => {
   try {
