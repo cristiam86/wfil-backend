@@ -30,12 +30,13 @@ Resources:
       Environment:
         Variables:
           SECRETS_NAMESPACE: !Sub /${EnvironmentTagName}/
-          BLOCKS_TO_CHECK: 5
           LOTUS_API: https://api.filscan.io:8700/rpc/v1
-          VAULT_ADDRESS: t3q5trezq2brsqllznbr5x7xmvigzcwhtn6uosghs4mqlfoui6fygxtwehpxsoogimxmubdghuohqqhkpji2oq
+          VAULT_ADDRESS: f3q5trezq2brsqllznbr5x7xmvigzcwhtn6uosghs4mqlfoui6fygxtwehpxsoogimxmubdghuohqqhkpji2oq
           WEB3_PROVIDER: https://kovan.infura.io/v3/811bbb5a9fdb4b36b486bc3823cde725
           CONTRACT_ADDRESS: eC41bA46D6a477e0a004a8e30566f3e9e4a7684b
           MINTER_ADDRESS: E24904d381D075cf0c8912Bc3438f2cf0c720eDC
+          THREAD_ID: bafky3kyq5eade3csb22i73povf3tum5utuyqc4hcazlt4272qc72ywq
+          TEXTILE_PUB_KEY: bwafveealtrpdmiob4heale5lwe
   WFil:
     Type: AWS::Serverless::HttpApi
     Properties:
@@ -59,6 +60,9 @@ Resources:
               responses: {}
           /unwrap:
             get:
+              responses: {}
+          /wrap:
+            post:
               responses: {}
       FailOnWarnings: true
       CorsConfiguration:
@@ -186,6 +190,37 @@ Resources:
           WEB3_PROVIDER: https://kovan.infura.io/v3/811bbb5a9fdb4b36b486bc3823cde725
           CONTRACT_ADDRESS: eC41bA46D6a477e0a004a8e30566f3e9e4a7684b
           MINTER_ADDRESS: E24904d381D075cf0c8912Bc3438f2cf0c720eDC
+  Wrap:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${AWS::StackName}-Wrap
+      Description: !Sub
+        - Stack ${StackTagName} Environment ${EnvironmentTagName} Function ${ResourceName}
+        - ResourceName: Wrap
+      CodeUri: src/Wrap
+      Handler: index.handler
+      Runtime: nodejs12.x
+      MemorySize: 3008
+      Timeout: 30
+      Tracing: Active
+      Policies:
+        - AWSXrayWriteOnlyAccess
+        - AWSSecretsManagerGetSecretValuePolicy:
+            SecretArn: !Sub arn:${AWS::Partition}:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:/${EnvironmentTagName}/*
+      Events:
+        WFilPOSTwrap:
+          Type: HttpApi
+          Properties:
+            Path: /wrap
+            Method: POST
+            ApiId: !Ref WFil
+            PayloadFormatVersion: '2.0'
+            TimeoutInMillis: 29000
+      Environment:
+        Variables:
+          SECRETS_NAMESPACE: !Sub /${EnvironmentTagName}/
+          THREAD_ID: bafky3kyq5eade3csb22i73povf3tum5utuyqc4hcazlt4272qc72ywq
+          TEXTILE_PUB_KEY: bwafveealtrpdmiob4heale5lwe
 Parameters:
   StackTagName:
     Type: String
