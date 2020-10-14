@@ -26,6 +26,7 @@ exports.getTransaction = async (cid) => {
 
   } catch (error) {
     console.log("getTransaction -> error", error)
+    console.log("exports.getTransaction -> cid", cid)
   }
   return null;
 }
@@ -39,6 +40,7 @@ exports.saveTransaction = async (transactionData) => {
 
   } catch (error) {
     console.log("saveTransaction -> error", error)
+    console.log("exports.updateTransaction -> transactionData", transactionData)
   }
   return false;
 }
@@ -46,12 +48,12 @@ exports.saveTransaction = async (transactionData) => {
 exports.updateTransaction = async (transactionData) => {
   try {
     const { client, threadID } = await getDataBase();
-    const ids = await client.create(threadID, 'transactions', [transactionData]);
-    console.log("exports.updateTransaction -> ids", ids)
-    if (ids && ids.length) return true;
+    await client.save(threadID, 'transactions', [transactionData]);
+    return true;
 
   } catch (error) {
     console.log("updateTransaction -> error", error)
+    console.log("exports.updateTransaction -> transactionData", transactionData)
   }
   return false;
 }
@@ -65,6 +67,7 @@ const listTransactions = async (query = {}) => {
 
   } catch (error) {
     console.log("listTransactions -> error", error)
+    console.log("listTransactions -> query", query)
   }
   return [];
 }
@@ -84,6 +87,7 @@ exports.removeTransaction = async (id) => {
 
   } catch (error) {
     console.log("removeTransaction -> error", error)
+    console.log("removeTransaction -> id", id)
   }
   return [];
 }
