@@ -64,6 +64,9 @@ Resources:
           /wrap:
             post:
               responses: {}
+          /transaction/check:
+            get:
+              responses: {}
       FailOnWarnings: true
       CorsConfiguration:
         AllowHeaders:
@@ -221,6 +224,35 @@ Resources:
           SECRETS_NAMESPACE: !Sub /${EnvironmentTagName}/
           THREAD_ID: bafky3kyq5eade3csb22i73povf3tum5utuyqc4hcazlt4272qc72ywq
           TEXTILE_PUB_KEY: bwafveealtrpdmiob4heale5lwe
+  ListTransactions:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${AWS::StackName}-ListTransactions
+      Description: !Sub
+        - Stack ${StackTagName} Environment ${EnvironmentTagName} Function ${ResourceName}
+        - ResourceName: ListTransactions
+      CodeUri: src/ListTransactions
+      Handler: index.handler
+      Runtime: nodejs12.x
+      MemorySize: 3008
+      Timeout: 30
+      Tracing: Active
+      Policies:
+        - AWSXrayWriteOnlyAccess
+        - AWSSecretsManagerGetSecretValuePolicy:
+            SecretArn: !Sub arn:${AWS::Partition}:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:/${EnvironmentTagName}/*
+      Events:
+        WFilGETtransactioncheck:
+          Type: HttpApi
+          Properties:
+            Path: /transaction/check
+            Method: GET
+            ApiId: !Ref WFil
+            PayloadFormatVersion: '2.0'
+            TimeoutInMillis: 29000
+      Environment:
+        Variables:
+          SECRETS_NAMESPACE: !Sub /${EnvironmentTagName}/
 Parameters:
   StackTagName:
     Type: String
