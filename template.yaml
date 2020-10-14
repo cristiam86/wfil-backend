@@ -253,6 +253,8 @@ Resources:
       Environment:
         Variables:
           SECRETS_NAMESPACE: !Sub /${EnvironmentTagName}/
+          THREAD_ID: bafky3kyq5eade3csb22i73povf3tum5utuyqc4hcazlt4272qc72ywq
+          TEXTILE_PUB_KEY: bwafveealtrpdmiob4heale5lwe
       Events:
         WFilGETtransaction:
           Type: HttpApi
