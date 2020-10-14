@@ -11,7 +11,7 @@ Resources:
       CodeUri: src/CheckTransaction
       Handler: index.handler
       Runtime: nodejs12.x
-      MemorySize: 3008
+      MemorySize: 256
       Timeout: 30
       Tracing: Active
       Policies:
@@ -37,6 +37,12 @@ Resources:
             ApiId: !Ref WFil
             PayloadFormatVersion: '2.0'
             TimeoutInMillis: 29000
+        Timer:
+          Type: Schedule
+          Properties:
+            Schedule: rate(1 minute)
+          Metadata:
+            StackeryName: CheckTransactionCron
   WFil:
     Type: AWS::Serverless::HttpApi
     Properties:
@@ -244,8 +250,6 @@ Resources:
       Environment:
         Variables:
           SECRETS_NAMESPACE: !Sub /${EnvironmentTagName}/
-          THREAD_ID: bafky3kyq5eade3csb22i73povf3tum5utuyqc4hcazlt4272qc72ywq
-          TEXTILE_PUB_KEY: bwafveealtrpdmiob4heale5lwe
       Events:
         WFilGETtransaction:
           Type: HttpApi
