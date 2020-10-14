@@ -20,7 +20,7 @@ async function getDataBase() {
 exports.getTransaction = async (cid) => {
   try {
     const { client, threadID } = await getDataBase();
-    const query = new Where('cid').eq(cid);
+    const query = new Where('messageCid').eq(cid);
     const tx = await client.find(threadID, 'transactions', query)
     return tx && tx.length ? tx[0] : null;
 
