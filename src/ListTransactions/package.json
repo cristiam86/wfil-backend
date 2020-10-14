@@ -3,5 +3,8 @@
   "version": "1.0.0",
   "devDependencies": {
     "aws-sdk": "~2"
+  },
+  "dependencies": {
+    "@textile/hub": "^1.1.1"
   }
 }
