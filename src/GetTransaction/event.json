@@ -1,0 +1,6 @@
+{
+  "field": "getwalletbalance",
+  "pathParameters": {
+      "id": "01emmm7dxpqcyp0w4gng6hp6ts"
+  }
+}
