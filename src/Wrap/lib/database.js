@@ -76,14 +76,14 @@ exports.listPendingTransactions = async () => {
   return listTransactions(query);
 }
 
-// exports.removeTransaction = async (id) => {
-//   try {
-//     const { client, threadID } = await getDataBase();
-//     const result = await client.delete(threadID, 'transactions', [id])
-//     return result;
+exports.removeTransaction = async (id) => {
+  try {
+    const { client, threadID } = await getDataBase();
+    const result = await client.delete(threadID, 'transactions', [id])
+    return result;
 
-//   } catch (error) {
-//     console.log("removeTransaction -> error", error)
-//   }
-//   return [];
-// }
+  } catch (error) {
+    console.log("removeTransaction -> error", error)
+  }
+  return [];
+}

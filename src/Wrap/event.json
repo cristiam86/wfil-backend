@@ -1,4 +1,4 @@
 {
     "field": "wrap",
-    "body": "{ \"origin\": \"f3rbjz3n3v2botx7tdqp2f3dhxme4jl4ycgydlvtmxgrnbbf35b2jt2obwyhqdudcwhprmcdfw4tcpyquqz5qa\", \"amount\": \"1\", \"destination\": \"0x45321B7d9f0733F8A3d4206b02c38739044a9612\" }"
+    "body": "{ \"origin\": \"f3rbjz3n3v2botx7tdqp2f3dhxme4jl4ycgydlvtmxgrnbbf35b2jt2obwyhqdudcwhprmcdfw4tcpyquqz5qa\", \"amount\": \"0.02\", \"destination\": \"0x45321B7d9f0733F8A3d4206b02c38739044a9612\" }"
 }

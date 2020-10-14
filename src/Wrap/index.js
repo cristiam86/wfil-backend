@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-const { saveTransaction } = require('./lib/database.js');
+const { saveTransaction, /*listTransactions, removeTransaction*/ } = require('./lib/database.js');
 const { formatAddress, absoluteAmount } = require('./lib/helpers.js');
 /*
 INVOKE
@@ -19,8 +19,11 @@ exports.handler = async (event, context) => {
     timestamp: +new Date()
   });
 
-  // await removeTransaction('01emkzecg7rnp2082cj45p6z68');
-
+  // await removeTransaction('01emm0b5ra4faj30kvrx1n1mjh');
+  // await removeTransaction('01emm0ag8zstdxfvya5b9q21ng');
+  // await removeTransaction('01emm09gp6yh2f1ef2yg4jhknz');
+  // const tx = await listTransactions();
+  // console.log("exports.handler -> tx", tx)
 
   return { success: result };
 };
