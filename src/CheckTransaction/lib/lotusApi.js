@@ -1,6 +1,5 @@
 const axios = require('axios');
 
-const BLOCKS_TO_CHECK = process.env.BLOCKS_TO_CHECK; 
 const LOTUS_API = process.env.LOTUS_API; 
 
 exports.getMessagesList = async (from) => {
@@ -11,7 +10,7 @@ exports.getMessagesList = async (from) => {
       "params":[
           {
               "begindex":0,
-              "count": Number(BLOCKS_TO_CHECK),
+              "count": 5,
               "method":"",
               "address": from,
               "from_to": "from"
