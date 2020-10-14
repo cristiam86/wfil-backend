@@ -36,7 +36,7 @@ exports.saveTransaction = async (transactionData) => {
     const { client, threadID } = await getDataBase();
     const ids = await client.create(threadID, 'transactions', [transactionData]);
     console.log("exports.saveTransaction -> ids", ids)
-    if (ids && ids.length) return true;
+    if (ids && ids.length) return { success: true, data: ids };
 
   } catch (error) {
     console.log("saveTransaction -> error", error)
