@@ -31,6 +31,19 @@ exports.getTransaction = async (cid) => {
   return null;
 }
 
+exports.getTransactionById = async (id) => {
+  try {
+    const { client, threadID } = await getDataBase();
+    const result = await client.findByID(threadID, 'transactions', id)
+    return result;
+
+  } catch (error) {
+    console.log("getTransaction -> error", error)
+    console.log("exports.getTransaction -> cid", cid)
+  }
+  return null;
+}
+
 exports.saveTransaction = async (transactionData) => {
   try {
     const { client, threadID } = await getDataBase();
