@@ -8,7 +8,7 @@ const AWS = require('aws-sdk');
 const secretsManager = new AWS.SecretsManager();
 const secretsNamespace = process.env.SECRETS_NAMESPACE;
 const VAULT_ADDRESS = process.env.VAULT_ADDRESS; 
-
+const MAX_TX_CHECKS_NUMBER = 5;
 /*
 INVOKE
 stackery local invoke -e wfil-production --aws-profile iamtech --function-id CheckTransaction --watch
@@ -21,7 +21,7 @@ exports.handler = async (event, context) => {
     }
     console.log("exports.handler -> pendingTransactions", pendingTransactions)
 
-    for (let i = 0; i < 1; i += 1) {
+    for (let i = 0; i < MAX_TX_CHECKS_NUMBER; i += 1) {
       const wfilTransaction = pendingTransactions[i];
       console.log("exports.handler -> transaction", wfilTransaction)
       const { origin, amount, destination } = wfilTransaction;
